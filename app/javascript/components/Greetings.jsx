@@ -12,7 +12,7 @@ const Greeting = ({ greeting, loading, error, fetchRandomGreeting }) => {
     <div>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <h2>{greeting}</h2>
+      <h2>{greeting && greeting.message}</h2>
     </div>
   );
 };
@@ -23,8 +23,4 @@ const mapStateToProps = (state) => ({
   error: state.error,
 });
 
-const mapDispatchToProps = {
-  fetchRandomGreeting,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Greeting);
+export default connect(mapStateToProps, { fetchRandomGreeting })(Greeting);
