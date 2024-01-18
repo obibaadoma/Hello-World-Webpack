@@ -1,26 +1,21 @@
-// app/javascript/components/Greeting.jsx
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { fetchRandomGreeting } from '../redux/actions';
+// app/javascript/packs/Greeting.jsx
+import React, { useEffect, useState } from 'react';
 
-const Greeting = ({ greeting, loading, error, fetchRandomGreeting }) => {
+const Greeting = () => {
+  const [greeting, setGreeting] = useState('');
+
   useEffect(() => {
-    fetchRandomGreeting();
-  }, [fetchRandomGreeting]);
+    fetch('/random_greeting')
+      .then(response => response.json())
+      .then(data => setGreeting(data.greeting));
+  }, []);
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      <h2>{greeting && greeting.message}</h2>
+      <h2>Random Greeting:</h2>
+      <p>{greeting}</p>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  greeting: state.greeting,
-  loading: state.loading,
-  error: state.error,
-});
-
-export default connect(mapStateToProps, { fetchRandomGreeting })(Greeting);
+export default Greeting;
